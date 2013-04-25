@@ -17,7 +17,19 @@ elgg.provide('elgg.spiritweek');
  * Podcasts JS init
  */
 elgg.spiritweek.init = function() {
-	console.log('spiritweek');
+	// Create fancybox for spirit videos
+	$(".sw-lightbox").fancybox({
+		'onClosed' : function() {
+			// Remove the video div on close
+			$('div#sw-lightbox').remove();
+		}
+	});
+
+	// init
+	$.fancybox.init();
+
+	// trigger click
+	$("a.sw-lightbox").click();
 }
 
 // Elgg podcasts init

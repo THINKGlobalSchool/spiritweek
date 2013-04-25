@@ -17,9 +17,85 @@ function spiritweek_init() {
 	// Extend main CSS
 	elgg_extend_view('css/elgg', 'css/spiritweek/css');
 
+	// Define videos
+	define('MONDAY_VIDEO', '9bZkp7q19f0');
+	define('TUESDAY_VIDEO', 'FdKFnOsWaSg');
+	define('WEDNESDAY_VIDEO', 'HNtBphqE_LA');
+	define('THURSDAY_VIDEO', 'QAEkuVgt6Aw');
+	define('FRIDAY_VIDEO', 'QD-Cg64GuvI');
+
 	// Register JS
 	$s_js = elgg_get_simplecache_url('js', 'spiritweek/spiritweek');
 	elgg_register_simplecache_view('js/spiritweek/spiritweek');
 	elgg_register_js('elgg.spiritweek', $s_js);
+
+	// Determin if and which video we're playing and on which page
+	switch (spiritweek_get_daily_video()) {
+		case MONDAY_VIDEO:
+			elgg_register_plugin_hook_handler('route', 'groups', 'spiritweek_route_handler', 1);
+			break;
+		case TUESDAY_VIDEO:
+			elgg_register_plugin_hook_handler('route', 'pages', 'spiritweek_route_handler', 1);
+			break;
+		case WEDNESDAY_VIDEO:
+			elgg_register_plugin_hook_handler('route', 'polls', 'spiritweek_route_handler', 1);
+			break;
+		case THURSDAY_VIDEO:
+			elgg_register_plugin_hook_handler('route', 'books', 'spiritweek_route_handler', 1);
+			break;
+		case FRIDAY_VIDEO:
+			elgg_register_plugin_hook_handler('route', 'forums', 'spiritweek_route_handler', 1);
+			break;
+	}
+}
+
+// General route hook
+function spiritweek_route_handler($hook, $type, $return, $params) {
+	spiritweek_include_exterals();
+	elgg_extend_view('page/elements/footer', 'spiritweek/popup');
+	return $return;
+}
+
+// Convenience..
+function spiritweek_include_exterals() {
 	elgg_load_js('elgg.spiritweek');
+	elgg_load_js('lightbox');
+	elgg_load_css('lightbox');
+}
+
+/**
+ * Get video for day based on current timestamp
+ *
+ * Start date: 1367208000 (4/29/2013 12:00:00 AM EST)
+ * End date:   1367640000 (5/4/2013 12:00:00 AM EST)
+ */
+function spiritweek_get_daily_video() {
+	$start = 1367208000;
+	$end = 1367640000;
+
+	if (get_input('SW_TIME_DEBUG', false)) {
+		$time = get_input('SW_TIME_DEBUG');
+	} else {
+		$time = time();
+	}
+
+	// Test dates
+	$date_videos = array(
+		'1367208000' => MONDAY_VIDEO,    // 4/29/2013 12:00:00 AM EST
+		'1367294400' => TUESDAY_VIDEO,   // 4/30/2013 12:00:00 AM EST
+		'1367380800' => WEDNESDAY_VIDEO, // 5/1/2013 12:00:00 AM EST
+		'1367467200' => THURSDAY_VIDEO,  // 5/2/2013 12:00:00 AM EST
+		'1367553600' => FRIDAY_VIDEO,    // 5/3/2013 12:00:00 AM EST
+	);
+
+	$dv_r = array_reverse($date_videos, true);
+
+	foreach ($dv_r as $d => $v) {
+		if ($time >= $d && ($time >= $start && $time <= $end)) {
+			return $v;
+			break;
+		}
+	}
+
+	return false;
 }
