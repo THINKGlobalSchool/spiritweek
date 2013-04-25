@@ -150,7 +150,7 @@ function spirit_week_get_video_info($video_id) {
  */
 function spiritweek_notify($video_id) {
 	// Check if this video has been viewed once
-	if (!elgg_get_plugin_setting('video_' . $video_id, 'spiritweek')) {
+	if (!elgg_get_plugin_setting('video_' . $video_id, 'spiritweek') && !elgg_is_admin_logged_in()) {
 		// First view!! Set viewed and notify
 		elgg_set_plugin_setting('video_' . $video_id, 'viewed', 'spiritweek');
 
