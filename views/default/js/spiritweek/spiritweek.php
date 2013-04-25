@@ -14,7 +14,7 @@
 elgg.provide('elgg.spiritweek');
 
 /**
- * Podcasts JS init
+ * SW JS init
  */
 elgg.spiritweek.init = function() {
 	// Create fancybox for spirit videos
@@ -32,5 +32,5 @@ elgg.spiritweek.init = function() {
 	$("a.sw-lightbox").click();
 }
 
-// Elgg podcasts init
+// Elgg SW init
 elgg.register_hook_handler('init', 'system', elgg.spiritweek.init);

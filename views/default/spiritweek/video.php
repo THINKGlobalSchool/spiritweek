@@ -13,14 +13,46 @@
 
 $video_id = elgg_extract('video_id', $vars);
 
+$title = elgg_echo('spiritweek:video_title');
+
+$info = spirit_week_get_video_info($video_id);
+
+$desc = $info['desc'];
+
 $content = <<<HTML
+	<h2>$title</h2>
 	<object width="560" height="315">
-		<param name="movie" value="http://www.youtube.com/v/{$video_id}&autoplay=1"></param>
+		<param name="movie" value="http://www.youtube.com/v/{$video_id}"></param>
 		<param name="allowFullScreen" value="true"></param>
 		<param name="allowscriptaccess" value="always"></param>
-		<embed src="http://www.youtube.com/v/{$video_id}&autoplay=1" type="application/x-shockwave-flash" width="560" height="315" allowscriptaccess="always" allowfullscreen="true">
+		<embed src="http://www.youtube.com/v/{$video_id}" type="application/x-shockwave-flash" width="560" height="315" allowscriptaccess="always" allowfullscreen="true">
 		</embed>
 	</object>
+	<div>
+		$desc
+	</div>
 HTML;
+
+// Get this users spirity week metadata
+$sw_meta = elgg_get_metadata(array(
+	'guid' => elgg_get_logged_in_user_guid(),
+	'metadata_name' => 'spiritweek_2013'
+));
+
+// If we've got metadata, unserialize it
+if (count($sw_meta) == 1) {
+	$user_sw_meta = unserialize($sw_meta[0]['value']);
+} else {
+	// New empty array
+	$user_sw_meta = array();
+}
+
+// This video viewed metadata
+$user_sw_meta[$video_id] = true;
+
+// Create/update user spirit week metadata
+create_metadata(elgg_get_logged_in_user_guid(), 'spiritweek_2013', serialize($user_sw_meta), '', 0, ACCESS_LOGGED_IN);
+
+spiritweek_notify($video_id);
 
 echo $content;
