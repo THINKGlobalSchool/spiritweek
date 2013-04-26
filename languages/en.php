@@ -26,6 +26,8 @@ $english = array(
 	'spiritweek:wednesday_desc' => 'Wednesday description',
 	'spiritweek:thursday_desc' => 'Thursday description',
 	'spiritweek:friday_desc' => 'Friday description',
+
+	'spiritweek:hidevideo' => "Don't show this again?",
 );
 
 add_translation('en', $english);

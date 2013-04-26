@@ -13,6 +13,17 @@
 
 elgg.provide('elgg.spiritweek');
 
+/**	
+ * Helper to check for local storage support
+ */
+elgg.spiritweek.supportsLocalStorage = function() {
+	try {
+		return 'localStorage' in window && window['localStorage'] !== null;
+	} catch (e) {
+		return false;
+	}
+}
+
 /**
  * SW JS init
  */
@@ -28,8 +39,29 @@ elgg.spiritweek.init = function() {
 	// init
 	$.fancybox.init();
 
-	// trigger click
-	$("a.sw-lightbox").click();
+	if ($('a.sw-lightbox').length) {
+		if (elgg.spiritweek.supportsLocalStorage()) {
+			if (!localStorage.getItem('elgg.spiritweek.hide.' + $('a.sw-lightbox').attr('id'))) {
+				// trigger click
+				$("a.sw-lightbox").click();
+			}
+		} else {
+			// trigger click
+			$("a.sw-lightbox").click();
+		}
+	}
+
+	$('input.sw-hide-video').bind('click', function(event) {
+		if ($(this).is(':checked')) {
+			if (elgg.spiritweek.supportsLocalStorage()) {
+				localStorage.setItem('elgg.spiritweek.hide.' + $(this).attr('name'), 1);
+			}
+		} else {
+			if (elgg.spiritweek.supportsLocalStorage()) {
+				localStorage.removeItem('elgg.spiritweek.hide.' + $(this).attr('name'));
+			}
+		}
+	});
 }
 
 // Elgg SW init

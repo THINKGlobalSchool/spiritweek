@@ -14,13 +14,21 @@ $video_id = spiritweek_get_daily_video();
 
 if ($video_id) {
 	$link = elgg_view('output/url', array(
+		'id' => $video_id,
 		'text' => 'test',
 		'href' => "#sw-lightbox",
-	 	'class' => 'sw-lightbox'
+	 	'class' => 'sw-lightbox',
 	 ));
 
 	$video = elgg_view('spiritweek/video', array(
 		'video_id' => $video_id
+	));
+
+	$hide_label = elgg_echo('spiritweek:hidevideo');
+
+	$hide_checkbox = elgg_view('input/checkbox', array(
+		'name' => $video_id,
+		'class' => 'sw-hide-video'
 	));
 
 	$content = <<<HTML
@@ -28,9 +36,11 @@ if ($video_id) {
 		<div class='hidden'>
 			<div id='sw-lightbox'>
 				$video
+				<div>
+					<strong>$hide_label</strong> $hide_checkbox
+				</div>
 			</div>
 		</div>
 HTML;
-
 	echo $content;
 }

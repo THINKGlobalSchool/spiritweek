@@ -28,12 +28,9 @@ $content = <<<HTML
 		<embed src="http://www.youtube.com/v/{$video_id}" type="application/x-shockwave-flash" width="560" height="315" allowscriptaccess="always" allowfullscreen="true">
 		</embed>
 	</object>
-	<div>
-		$desc
-	</div>
 HTML;
 
-// Get this users spirity week metadata
+// Get this users spirit week metadata
 $sw_meta = elgg_get_metadata(array(
 	'guid' => elgg_get_logged_in_user_guid(),
 	'metadata_name' => 'spiritweek_2013'
