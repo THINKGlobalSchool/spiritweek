@@ -23,6 +23,8 @@ function spiritweek_init() {
 	define('WEDNESDAY_VIDEO', 'HNtBphqE_LA');
 	define('THURSDAY_VIDEO', 'QAEkuVgt6Aw');
 	define('FRIDAY_VIDEO', 'QD-Cg64GuvI');
+	define('SATURDAY_VIDEO', 'RbMjtoaneJM');
+	define('SUNDAY_VIDEO', '8Y6bpAxTX0A');
 
 	// Register JS
 	$s_js = elgg_get_simplecache_url('js', 'spiritweek/spiritweek');
@@ -34,19 +36,25 @@ function spiritweek_init() {
 		// Determin if and which video we're playing and on which page
 		switch (spiritweek_get_daily_video()) {
 			case MONDAY_VIDEO:
-				elgg_register_plugin_hook_handler('route', 'groups', 'spiritweek_route_handler', 1);
+				elgg_register_plugin_hook_handler('route', 'home', 'spiritweek_route_general_handler', 1);
 				break;
 			case TUESDAY_VIDEO:
-				elgg_register_plugin_hook_handler('route', 'pages', 'spiritweek_route_handler', 1);
+				elgg_register_plugin_hook_handler('route', 'todo', 'spiritweek_route_todolist_handler', 1);
 				break;
 			case WEDNESDAY_VIDEO:
-				elgg_register_plugin_hook_handler('route', 'polls', 'spiritweek_route_handler', 1);
+				elgg_register_plugin_hook_handler('route', 'tagdashboards', 'spiritweek_route_tagdb_weekly_handler', 1);
 				break;
 			case THURSDAY_VIDEO:
-				elgg_register_plugin_hook_handler('route', 'books', 'spiritweek_route_handler', 1);
+				elgg_register_plugin_hook_handler('route', 'tagdashboards', 'spiritweek_route_tagdb_smile_handler', 1);
 				break;
 			case FRIDAY_VIDEO:
-				elgg_register_plugin_hook_handler('route', 'forums', 'spiritweek_route_handler', 1);
+				elgg_register_plugin_hook_handler('route', 'photos', 'spiritweek_route_allphotos_handler', 1);
+				break;
+			case SATURDAY_VIDEO:
+				elgg_register_plugin_hook_handler('route', 'members', 'spiritweek_route_general_handler', 1);
+				break;
+			case SUNDAY_VIDEO:
+				elgg_register_plugin_hook_handler('route', 'home', 'spiritweek_route_general_handler', 1);
 				break;
 		}
 	}
@@ -61,28 +69,65 @@ function spiritweek_init() {
 }
 
 // General route hook
-function spiritweek_route_handler($hook, $type, $return, $params) {
-	spiritweek_include_exterals();
-	elgg_extend_view('page/elements/footer', 'spiritweek/popup');
+function spiritweek_route_general_handler($hook, $type, $return, $params) {
+	spiritweek_include_views();
+	return $return;
+}
+
+/* Specific page hooks */
+function spiritweek_route_todolist_handler($hook, $type, $return, $params) {
+	if (count($return['segments']) && $return['segments'][0] && $return['segments'][0] == 'dashboard') {
+		spiritweek_include_views();
+	}
+	return $return;
+}
+
+function spiritweek_route_allphotos_handler($hook, $type, $return, $params) {
+	if (count($return['segments']) && $return['segments'][0] && $return['segments'][0] == 'all') {
+		spiritweek_include_views();
+	}
+	return $return;
+}
+
+function spiritweek_route_tagdb_smile_handler($hook, $type, $return, $params) {
+	elgg_dump($return);
+	if (count($return['segments'])
+		 && ($return['segments'][0] && $return['segments'][0] == 'view')
+		 && ($return['segments'][1] && $return['segments'][1] == '114109') // Specific live tagdb
+	) {
+		spiritweek_include_views();
+	}
+	return $return;
+}
+
+function spiritweek_route_tagdb_weekly_handler($hook, $type, $return, $params) {
+	elgg_dump($return);
+	if (count($return['segments'])
+		 && ($return['segments'][0] && $return['segments'][0] == 'view')
+		 && ($return['segments'][1] && $return['segments'][1] == '113396') // Specific live tagdb
+	) {
+		spiritweek_include_views();
+	}
 	return $return;
 }
 
 // Convenience..
-function spiritweek_include_exterals() {
+function spiritweek_include_views() {
 	elgg_load_js('elgg.spiritweek');
 	elgg_load_js('lightbox');
 	elgg_load_css('lightbox');
+	elgg_extend_view('page/elements/footer', 'spiritweek/popup');
 }
 
 /**
  * Get video for day based on current timestamp
  *
  * Start date: 1367208000 (4/29/2013 12:00:00 AM EST)
- * End date:   1367640000 (5/4/2013 12:00:00 AM EST)
+ * End date:   1367812800 (5/6/2013 12:00:00 AM EST)
  */
 function spiritweek_get_daily_video() {
 	$start = 1367208000;
-	$end = 1367640000;
+	$end = 1367812800;
 
 	// Check for debug param
 	if (get_input('SW_TIME_DEBUG', false)) {
@@ -98,6 +143,8 @@ function spiritweek_get_daily_video() {
 		'1367380800' => WEDNESDAY_VIDEO, // 5/1/2013 12:00:00 AM EST
 		'1367467200' => THURSDAY_VIDEO,  // 5/2/2013 12:00:00 AM EST
 		'1367553600' => FRIDAY_VIDEO,    // 5/3/2013 12:00:00 AM EST
+		'1367640000' => SATURDAY_VIDEO,  //  5/4/2013 12:00:00 AM EST
+		'1367726400' => SUNDAY_VIDEO     // 5/5/2013 12:00:00 EST
 	);
 
 	$dv_r = array_reverse($date_videos, true);
