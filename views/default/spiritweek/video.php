@@ -19,8 +19,10 @@ $info = spirit_week_get_video_info($video_id);
 
 $desc = $info['desc'];
 
-$content = <<<HTML
-	<h2>$title</h2>
+$content = "<h2>$title</h2>";
+
+if ($info['type'] == 'youtube') {
+	$content .= <<<HTML
 	<object width="560" height="315">
 		<param name="movie" value="http://www.youtube.com/v/{$video_id}"></param>
 		<param name="allowFullScreen" value="true"></param>
@@ -29,6 +31,15 @@ $content = <<<HTML
 		</embed>
 	</object>
 HTML;
+
+} else {
+	$content .= <<<HTML
+	<iframe src="http://player.vimeo.com/video/$video_id?title=0&amp;byline=0&amp;badge=0&amp;color=ef5e6f" width="500" height="281" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen>
+	</iframe>
+HTML;
+}
+
+$content .= "<div style='width: 500px;'><br /><p>$desc</p></div><br />";
 
 // Get this users spirit week metadata
 $sw_meta = elgg_get_metadata(array(

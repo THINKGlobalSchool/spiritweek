@@ -39,15 +39,19 @@ elgg.spiritweek.init = function() {
 	// init
 	$.fancybox.init();
 
+	fireupvideo = function() {
+		setTimeout(function() {
+			$("a.sw-lightbox").click();
+		}, 2000);	
+	}
+
 	if ($('a.sw-lightbox').length) {
 		if (elgg.spiritweek.supportsLocalStorage()) {
 			if (!localStorage.getItem('elgg.spiritweek.hide.' + $('a.sw-lightbox').attr('id'))) {
-				// trigger click
-				$("a.sw-lightbox").click();
+				fireupvideo();
 			}
 		} else {
-			// trigger click
-			$("a.sw-lightbox").click();
+			fireupvideo();
 		}
 	}
 
@@ -65,4 +69,4 @@ elgg.spiritweek.init = function() {
 }
 
 // Elgg SW init
-elgg.register_hook_handler('init', 'system', elgg.spiritweek.init);
+elgg.register_hook_handler('init', 'system', elgg.spiritweek.init, 999);

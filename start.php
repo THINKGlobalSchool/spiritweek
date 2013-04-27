@@ -18,13 +18,13 @@ function spiritweek_init() {
 	elgg_extend_view('css/elgg', 'css/spiritweek/css');
 
 	// Define videos
-	define('MONDAY_VIDEO', '9bZkp7q19f0');
-	define('TUESDAY_VIDEO', 'FdKFnOsWaSg');
-	define('WEDNESDAY_VIDEO', 'HNtBphqE_LA');
-	define('THURSDAY_VIDEO', 'QAEkuVgt6Aw');
-	define('FRIDAY_VIDEO', 'QD-Cg64GuvI');
-	define('SATURDAY_VIDEO', 'RbMjtoaneJM');
-	define('SUNDAY_VIDEO', '8Y6bpAxTX0A');
+	define('MONDAY_VIDEO', '24492485');
+	define('TUESDAY_VIDEO', '60763684');
+	define('WEDNESDAY_VIDEO', '56093731');
+	define('THURSDAY_VIDEO', '6428069');
+	define('FRIDAY_VIDEO', '27244727');
+	define('SATURDAY_VIDEO', '45119481');
+	define('SUNDAY_VIDEO', 'dZX6Q-Bj_xg');
 
 	// Register JS
 	$s_js = elgg_get_simplecache_url('js', 'spiritweek/spiritweek');
@@ -90,7 +90,6 @@ function spiritweek_route_allphotos_handler($hook, $type, $return, $params) {
 }
 
 function spiritweek_route_tagdb_smile_handler($hook, $type, $return, $params) {
-	elgg_dump($return);
 	if (count($return['segments'])
 		 && ($return['segments'][0] && $return['segments'][0] == 'view')
 		 && ($return['segments'][1] && $return['segments'][1] == '114109') // Specific live tagdb
@@ -101,7 +100,6 @@ function spiritweek_route_tagdb_smile_handler($hook, $type, $return, $params) {
 }
 
 function spiritweek_route_tagdb_weekly_handler($hook, $type, $return, $params) {
-	elgg_dump($return);
 	if (count($return['segments'])
 		 && ($return['segments'][0] && $return['segments'][0] == 'view')
 		 && ($return['segments'][1] && $return['segments'][1] == '113396') // Specific live tagdb
@@ -168,23 +166,38 @@ function spirit_week_get_video_info($video_id) {
 	$video_desc = array(
 		MONDAY_VIDEO => array(
 			'name' => elgg_echo('spiritweek:monday_name'),
+			'type' => 'vimeo',
 			'desc' => elgg_echo('spiritweek:monday_desc')
 		),
 		TUESDAY_VIDEO => array(
 			'name' => elgg_echo('spiritweek:tuesday_name'),
+			'type' => 'vimeo',
 			'desc' => elgg_echo('spiritweek:tuesday_desc')
 		),
 		WEDNESDAY_VIDEO => array(
 			'name' => elgg_echo('spiritweek:wednesday_name'),
+			'type' => 'vimeo',
 			'desc' => elgg_echo('spiritweek:wednesday_desc')
 		),
 		THURSDAY_VIDEO => array(
 			'name' => elgg_echo('spiritweek:thursday_name'),
+			'type' => 'vimeo',
 			'desc' => elgg_echo('spiritweek:thursday_desc')
 		),
 		FRIDAY_VIDEO => array(
 			'name' => elgg_echo('spiritweek:friday_name'),
+			'type' => 'vimeo',
 			'desc' => elgg_echo('spiritweek:friday_desc')
+		),
+		SATURDAY_VIDEO => array(
+			'name' => elgg_echo('spiritweek:saturday_name'),
+			'type' => 'vimeo',
+			'desc' => elgg_echo('spiritweek:saturday_desc')
+		),
+		SUNDAY_VIDEO => array(
+			'name' => elgg_echo('spiritweek:sunday_name'),
+			'type' => 'youtube',
+			'desc' => elgg_echo('spiritweek:sunday_desc')
 		)
 	);
 
