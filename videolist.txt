@@ -1,0 +1,10 @@
+Video list
+----------
+
+MONDAY: http://spot.thinkglobalschool.com/home?SW_TIME_DEBUG=1367208000
+TUESDAY: http://spot.thinkglobalschool.com/todo/dashboard/?SW_TIME_DEBUG=1367294400
+WEDNESDAY: http://spot.thinkglobalschool.com/tagdashboards/view/113396/tgs-weekly-apr-15-21?SW_TIME_DEBUG=1367380800
+THURSDAY: http://spot.thinkglobalschool.com/tagdashboards/view/114109/made-me-smile?SW_TIME_DEBUG=1367467200
+FRIDAY: http://spot.thinkglobalschool.com/photos/all?SW_TIME_DEBUG=1367553600
+SATURDAY: http://spot.thinkglobalschool.com/members?SW_TIME_DEBUG=1367640000
+SUNDAY: http://spot.thinkglobalschool.com/home?SW_TIME_DEBUG=1367726400
