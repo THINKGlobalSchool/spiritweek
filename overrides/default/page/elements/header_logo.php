@@ -1,6 +1,6 @@
 <?php
 /**
- * TGS Spirit Week CSS
+ * TGS Spirit Week Logo
  *
  * @package Spirit Week
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU Public License version 2
@@ -9,8 +9,10 @@
  * @link http://www.thinkglobalschool.com/
  *
  */
-$images_url = elgg_get_site_url() . 'mod/spiritweek/graphics/';
+
+$site_url = elgg_get_site_url();
 ?>
+<style>
 
 /** Override logo **/
 .elgg-main {
@@ -47,10 +49,18 @@ $images_url = elgg_get_site_url() . 'mod/spiritweek/graphics/';
 	margin: 0 0 10px 0;
 	background:url("<?php echo elgg_get_site_url(); ?>mod/spiritweek/graphics/bottom-red.png") no-repeat !important;
 }
-
-
 */
 
 .elgg-home-right{
 	background:none !important;
 }
+
+</style>
+<!-- 
+<h1>
+	<a class="elgg-heading-site" href="<?php // echo $site_url; ?>">
+		<?php // echo $site_name; ?>
+	</a>
+</h1>
+-->
+<a href="<?php echo $site_url; ?>"><img class='spot-logo' src="<?php echo elgg_get_site_url(); ?>mod/spiritweek/graphics/sw-logo-blue.png" border="0" alt="Think Spot Logo"></img></a>

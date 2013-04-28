@@ -14,9 +14,6 @@ elgg_register_event_handler('init', 'system', 'spiritweek_init');
 
 // Init podcasts
 function spiritweek_init() {
-	// Extend main CSS
-	elgg_extend_view('css/elgg', 'css/spiritweek/css');
-
 	// Define videos
 	define('MONDAY_VIDEO', '24492485');
 	define('TUESDAY_VIDEO', '60763684');
@@ -25,6 +22,8 @@ function spiritweek_init() {
 	define('FRIDAY_VIDEO', '27244727');
 	define('SATURDAY_VIDEO', '45119481');
 	define('SUNDAY_VIDEO', 'dZX6Q-Bj_xg');
+	define('SW_START', 1367208000);
+	define('SW_END', 1367812800);
 
 	// Register JS
 	$s_js = elgg_get_simplecache_url('js', 'spiritweek/spiritweek');
@@ -36,24 +35,31 @@ function spiritweek_init() {
 		// Determin if and which video we're playing and on which page
 		switch (spiritweek_get_daily_video()) {
 			case MONDAY_VIDEO:
+				elgg_set_view_location('page/elements/header_logo', elgg_get_plugins_path() . "spiritweek/overrides/");
 				elgg_register_plugin_hook_handler('route', 'home', 'spiritweek_route_general_handler', 1);
 				break;
 			case TUESDAY_VIDEO:
+				elgg_set_view_location('page/elements/header_logo', elgg_get_plugins_path() . "spiritweek/overrides/");
 				elgg_register_plugin_hook_handler('route', 'todo', 'spiritweek_route_todolist_handler', 1);
 				break;
 			case WEDNESDAY_VIDEO:
+				elgg_set_view_location('page/elements/header_logo', elgg_get_plugins_path() . "spiritweek/overrides/");
 				elgg_register_plugin_hook_handler('route', 'tagdashboards', 'spiritweek_route_tagdb_weekly_handler', 1);
 				break;
 			case THURSDAY_VIDEO:
+				elgg_set_view_location('page/elements/header_logo', elgg_get_plugins_path() . "spiritweek/overrides/");
 				elgg_register_plugin_hook_handler('route', 'tagdashboards', 'spiritweek_route_tagdb_smile_handler', 1);
 				break;
 			case FRIDAY_VIDEO:
+				elgg_set_view_location('page/elements/header_logo', elgg_get_plugins_path() . "spiritweek/overrides/");
 				elgg_register_plugin_hook_handler('route', 'photos', 'spiritweek_route_allphotos_handler', 1);
 				break;
 			case SATURDAY_VIDEO:
+				elgg_set_view_location('page/elements/header_logo', elgg_get_plugins_path() . "spiritweek/overrides/");
 				elgg_register_plugin_hook_handler('route', 'members', 'spiritweek_route_general_handler', 1);
 				break;
 			case SUNDAY_VIDEO:
+				elgg_set_view_location('page/elements/header_logo', elgg_get_plugins_path() . "spiritweek/overrides/");
 				elgg_register_plugin_hook_handler('route', 'home', 'spiritweek_route_general_handler', 1);
 				break;
 		}
@@ -124,8 +130,7 @@ function spiritweek_include_views() {
  * End date:   1367812800 (5/6/2013 12:00:00 AM EST)
  */
 function spiritweek_get_daily_video() {
-	$start = 1367208000;
-	$end = 1367812800;
+
 
 	// Check for debug param
 	if (get_input('SW_TIME_DEBUG', false)) {
@@ -148,7 +153,7 @@ function spiritweek_get_daily_video() {
 	$dv_r = array_reverse($date_videos, true);
 
 	foreach ($dv_r as $d => $v) {
-		if ($time >= $d && ($time >= $start && $time <= $end)) {
+		if ($time >= $d && ($time >= SW_START && $time <= SW_END)) {
 			return $v;
 			break;
 		}
